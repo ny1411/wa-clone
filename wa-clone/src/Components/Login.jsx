@@ -5,11 +5,13 @@ import { signInWithPopup } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
+import { useAuth } from "./AuthContext";
+import Header from "./Header";
 
 async function createUser(authData) {
-	if (!authData?.user?.uid) {
-		// console.log("User not authenticated");
-	}
+	// if (!authData?.user?.uid) {
+	// 	// console.log("User not authenticated");
+	// }
 	const userObj = authData.user;
 	// console.log("authData is collected");
 	const { uid, photoURL, displayName, email } = userObj;
@@ -31,8 +33,8 @@ async function createUser(authData) {
 	// console.log("await ki mkc");
 }
 
-function Login(props) {
-	const setIsLoggedIn = props.setIsLoggedIn;
+function Login() {
+	const { setUserData } = useAuth();
 
 	const navigate = useNavigate();
 
@@ -40,11 +42,23 @@ function Login(props) {
 		// console.log("inside handleLogin");
 		// Auth step 4
 		const userData = await signInWithPopup(auth, new GoogleAuthProvider());
+
 		// console.log("user data is collected");
 		createUser(userData);
-		console.log(userData);
-		setIsLoggedIn(true);
+		// console.log(userData);
+
 		navigate("/");
+
+		const userObj = userData.user;
+		const { uid, photoURL, displayName, email } = userObj;
+		setUserData({
+			id: uid,
+			profile_pic: photoURL,
+			name: displayName,
+			email: email,
+		});
+		localStorage.setItem("user", JSON.stringify(userObj));
+		console.log(userObj);
 
 		// 	try {
 		// 		const userData = await signInWithPopup(
@@ -138,13 +152,7 @@ function Login(props) {
 					</div>
 				</div>
 			</div>
-			<div className="header bg-[#060606] h-[10rem] flex items-center justify-start">
-				<img
-					src="https://static.whatsapp.net/rsrc.php/yZ/r/JvsnINJ2CZv.svg"
-					alt="WhatsApp"
-					className="logo ml-[3rem] lg:ml-[10rem] md:ml-[7rem] sm:ml-[5rem] scale-110"
-				/>
-			</div>
+			<Header />
 		</div>
 	);
 }

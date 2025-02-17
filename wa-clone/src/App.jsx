@@ -8,7 +8,6 @@ import Profile from "./Components/Profile.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 
 function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	return (
 		<>
 			{/* 
@@ -22,27 +21,34 @@ function App() {
 				// use * for everything else than above 
 			</Routes> 
 			*/}
+
 			<Routes>
 				<Route
 					path="/"
 					element={
-						<ProtectedRoute isLoggedIn={isLoggedIn}>
-							<Home setIsLoggedIn={setIsLoggedIn}></Home>
+						<ProtectedRoute>
+							<Home></Home>
 						</ProtectedRoute>
 					}
 				></Route>
 				<Route
-					path="/chat/:uniqueId"
+					path="/:chatID"
 					element={
-						<ProtectedRoute isLoggedIn={isLoggedIn}>
-							<Chat setIsLoggedIn={setIsLoggedIn}></Chat>
+						<ProtectedRoute>
+							<Home></Home>
 						</ProtectedRoute>
 					}
 				></Route>
 				<Route
-					path="/login"
-					element={<Login setIsLoggedIn={setIsLoggedIn}></Login>}
+					path="/profile"
+					element={
+						<ProtectedRoute>
+							<Profile></Profile>
+						</ProtectedRoute>
+					}
 				></Route>
+				<Route path="/login" element={<Login></Login>}></Route>
+
 				<Route path="*" element={<PageNotFound />}></Route>
 			</Routes>
 		</>
