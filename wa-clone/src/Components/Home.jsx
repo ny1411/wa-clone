@@ -11,7 +11,7 @@ import {
 import { storage } from "../../firebase";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import ChatPanel from "./ChatPanel";
-import Chat from "./Chat";
+import Chat from "./ChatWindow";
 import Header from "./Header";
 
 function Home() {
@@ -43,14 +43,15 @@ function Home() {
 
 	return (
 		<>
-			{/* <div>
+			<div className="home-page h-screen w-screen bg-[#cacaca]">
+				{/* <div>
 				<input
 					type="file"
 					accept="image/png image/jpg image/jpeg image/webp"
 					onChange={handleImageChange}
 				/>
 			</div> */}
-			{/* 
+				{/* 
 			<div className="home-page h-screen w-screen bg-[#e9e9e9]">
 				<div className="header bg-[#060606] h-[10rem] flex items-center justify-start"></div>
 				<div
@@ -98,33 +99,40 @@ function Home() {
 								/>
 								<Search className="search-icon mx-4 text-[#25d366]" />
 							</div> */}
-			{/* <div className="w-[70vw] h-[70vh]">
+				{/* <div className="w-[70vw] h-[70vh]">
 				<div className=" m-10 flex justify-center items-center"> */}
 
-			<div
-				className="main-chat-container 
+				<div
+					className="main-chat-container 
 				absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] 
-				h-[calc(100%-12rem)] w-[80%] bg-[#999] rounded-xl"
-			>
-				<div className="flex justify-center items-center h-full w-">
-					<div className="chat-list w-full h-full  ">
-						<ChatPanel className=" " />
-					</div>
-					<div className="chat-contianer w-screen h-full bg-[#222] rounded-r-xl">
-						<Chat></Chat>
+				h-[calc(100%-12rem)] w-[80%] bg-[#333] rounded-xl "
+				>
+					<div className="flex justify-center items-center h-full w-">
+						<div className="chat-list w-full h-full  ">
+							<ChatPanel className=" " />
+						</div>
+						<div
+							className="
+					chat-contianer w-screen h-full 
+					flex flex-col items-center justify-center 
+					bg-[#222] rounded-r-xl 
+					border-l-[1px] border-black"
+						>
+							<Chat></Chat>
+						</div>
 					</div>
 				</div>
-			</div>
-			<Header />
+				<Header />
 
-			{/* <div className="chat-window w-[50rem] h-[70rem] bg-black"></div> */}
-			{/* </div>
+				{/* <div className="chat-window w-[50rem] h-[70rem] bg-black"></div> */}
+				{/* </div>
 			</div> */}
-			{/* </div> 
+				{/* </div> 
 				</div>
 					<div className="right border-l border-black"></div>
 				 </div>
 			</div>*/}
+			</div>
 		</>
 	);
 }

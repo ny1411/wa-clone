@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./Components/Login.jsx";
-import Chat from "./Components/Chat.jsx";
+import Chat from "./Components/ChatWindow.jsx";
 import Home from "./Components/Home.jsx";
 import PageNotFound from "./Components/PageNotFound.jsx";
 import Profile from "./Components/Profile.jsx";
@@ -23,6 +23,7 @@ function App() {
 			*/}
 
 			<Routes>
+				<Route path="*" element={<PageNotFound />}></Route>
 				<Route
 					path="/"
 					element={
@@ -48,8 +49,6 @@ function App() {
 					}
 				></Route>
 				<Route path="/login" element={<Login></Login>}></Route>
-
-				<Route path="*" element={<PageNotFound />}></Route>
 			</Routes>
 		</>
 	);

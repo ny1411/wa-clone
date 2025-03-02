@@ -8,10 +8,9 @@ export function useAuth() {
 }
 
 function AuthWrapper({ children }) {
-
-	
+	const [loading, setLoading] = useState(true);
 	const [userData, setUserData] = useState(() => {
-		const storedUserObj = localStorage.getItem("user");
+		const storedUserObj = localStorage.getItem("currentUser");
 		return storedUserObj ? JSON.parse(storedUserObj) : null;
 	});
 
@@ -19,27 +18,30 @@ function AuthWrapper({ children }) {
 		const auth = getAuth();
 
 		// check for Firebase auth state changes
-		const authChange = onAuthStateChanged(auth, (user) => {
-			if (user) {
+		const authChange = onAuthStateChanged(auth, (currentUser) => {
+			setLoading(true);
+			if (currentUser) {
 				const userObj = {
-					id: user.uid,
-					profile_pic: user.photoURL,
-					name: user.displayName,
-					email: user.email,
+					id: currentUser.uid,
+					profile_pic: currentUser.photoURL,
+					name: currentUser.displayName,
+					email: currentUser.email,
 				};
 				setUserData(userObj);
-				localStorage.setItem("user", JSON.stringify(userObj)); // save to localStorage
+				// console.log(userObj);
+				localStorage.setItem("currentUser", JSON.stringify(userObj)); // save to localStorage
 			} else {
 				setUserData(null);
-				localStorage.removeItem("user"); // clear localStorage on logout
+				localStorage.removeItem("currentUser"); // clear localStorage on logout
 			}
+			setLoading(false);
 		});
 
 		return () => authChange();
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ setUserData, userData }}>
+		<AuthContext.Provider value={{ setUserData, userData, loading }}>
 			{children}
 		</AuthContext.Provider>
 	);

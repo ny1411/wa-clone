@@ -12,11 +12,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import Profile from "./Profile";
 import UserCard from "./UserCard";
+import { useAuth } from "./AuthContext";
 
 function ChatPanel() {
 	const [users, setUsers] = useState();
 	const [isLoading, setLoading] = useState(true);
 	const [showProfile, setShowProfile] = useState(false);
+
+	const { userData } = useAuth();
 
 	useEffect(() => {
 		const getUsers = async () => {
@@ -63,46 +66,49 @@ function ChatPanel() {
 
 	return (
 		<>
-			{/* <div>Chat Panel</div> */}
-
-			<div
-				className="
+			<div className="chat-panel h-max w-full rounded-tl-xl">
+				<div
+					className="
 				top h-16 flex 
 				items-center justify-between
 		  		bg-[#222] 
-		  		px-4 mb-4 rounded-tl-xl"
-			>
-				<img
-					className="profile-pic w-12 h-12
+		  		px-4 mb-4 rounded-tl-xl border-b-[1px] border-black"
+				>
+					<img
+						className="profile-pic w-12 h-12
 		  					drop-shadow-2xl rounded-full
 		  					border-2 border-[#25d366]
 		  					cursor-pointer"
-					// onClick={handleProfile}
-					onClick={() => {
-						setShowProfile(true);
-					}}
-					src="https:cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-				></img>
-				<div className="options-container flex items-center justify-end gap-4">
-					<div className="mode-switcher">
-						<Moon className="dark-mode-icon hidden text-[#25d366] cursor-pointer" />
-						<Sun className="light-mode-icon  text-[#25d366] cursor-pointer" />
+						// onClick={handleProfile}
+						onClick={() => {
+							setShowProfile(true);
+						}}
+						src={userData.profile_pic}
+					></img>
+
+					<div className="options-container flex items-center justify-end gap-4">
+						<div className="mode-switcher">
+							<Moon className="dark-mode-icon hidden text-[#25d366] cursor-pointer" />
+							<Sun className="light-mode-icon  text-[#25d366] cursor-pointer" />
+						</div>
+						<CircleFadingPlus className="status-icon text-[#25d366] cursor-pointer" />
+						<MessageSquare className="messages-icon text-[#25d366] cursor-pointer" />
+						<Settings className="settings-icon text-[#25d366] cursor-pointer" />
 					</div>
-					<CircleFadingPlus className="status-icon text-[#25d366] cursor-pointer" />
-					<MessageSquare className="messages-icon text-[#25d366] cursor-pointer" />
-					<Settings className="settings-icon text-[#25d366] cursor-pointer" />
 				</div>
-			</div>
-			<div className="bottom text-white">
-				{isLoading ? (
-					<div>Loading...</div>
-				) : (
-					<div className="">
-						{users.map((userObj) => (
-							<UserCard userObj={userObj} />
-						))}
-					</div>
-				)}
+				<div className="bottom text-white h-full">
+					{isLoading ? (
+						<div className="flex justify-center items-center h-max w-full">
+							Loading...
+						</div>
+					) : (
+						<div className="">
+							{users.map((userObj) => (
+								<UserCard key={userObj.id} userObj={userObj} />
+							))}
+						</div>
+					)}
+				</div>
 			</div>
 		</>
 	);

@@ -17,7 +17,7 @@ function Profile(props) {
 		<>
 			<div
 				className="
-			 bg-[#333] text-white 
+			 bg-[#222] text-white 
 			 flex gap-8 p-4 
 			 rounded-tl-xl"
 			>
