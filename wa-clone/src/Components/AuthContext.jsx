@@ -14,11 +14,13 @@ function AuthWrapper({ children }) {
 		return storedUserObj ? JSON.parse(storedUserObj) : null;
 	});
 
+	
+
 	useEffect(() => {
 		const auth = getAuth();
 
 		// check for Firebase auth state changes
-		const authChange = onAuthStateChanged(auth, (currentUser) => {
+		const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
 			setLoading(true);
 			if (currentUser) {
 				const userObj = {
@@ -37,7 +39,7 @@ function AuthWrapper({ children }) {
 			setLoading(false);
 		});
 
-		return () => authChange();
+		return () => unsubscribe();
 	}, []);
 
 	return (

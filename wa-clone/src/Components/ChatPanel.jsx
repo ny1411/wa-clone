@@ -2,7 +2,6 @@ import { collection, getDocs } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { db } from "../../firebase";
 import {
-	ArrowLeft,
 	CircleFadingPlus,
 	MessageSquare,
 	Moon,
